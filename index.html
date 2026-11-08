@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#23537c">
+  <meta name="description" content="Control Bluetooth del plotter CNC AVANXE, vista previa G-code y editor de trayectorias.">
+  <title>Plotter CNC AVANXE · Bluetooth HC-06 · Miku Edition · Nieve suave</title>
+  <link rel="stylesheet" href="./estilo.css">
+</head>
+<body>
+<div class="ambient" aria-hidden="true"></div><div class="miku-bg" aria-hidden="true"></div><div class="snowfall" id="snowfall" aria-hidden="true"></div>
+<header class="topbar">
+  <div class="brand"><span class="brand-mark" aria-hidden="true">✎</span><div>
+    <h1>Plotter CNC AVANXE · Bluetooth HC-06</h1>
+    <p>Control Chrome en Android y PC - UART</p>
+  </div></div><div class="top-tags"><span>AVANXE FPGA</span><span>Web Serial</span></div>
+</header>
+<main class="layout">
+  <div class="stack">
+    <section class="panel" id="bloqueConexion">
+      <div class="panel-heading"><div><h2>1. Conexión inalámbrica</h2><p>Conecta el módulo HC-06 y controla los motores.</p></div><span class="soft-pill">Web Serial · SPP</span></div>
+      <div id="estado" class="status"><span id="punto"></span><strong id="estadoTxt">Desconectado</strong></div>
+      <label>Tipo de puerto
+        <select id="baudios"><option value="9600" selected>HC-06 Bluetooth · 9600</option><option value="115200">USB AVANXE / FTDI · 115200</option></select>
+      </label>
+      <div class="btn-row spaced"><button class="primary" id="conectar">Conectar HC-06</button><button id="desconectar">Desconectar</button><button id="status">STATUS</button></div>
+      <div id="compat" class="notice">Comprobando compatibilidad Web Serial...</div>
+      <details class="fold" open><summary>Activación y referencia</summary>
+        <div class="btn-row spaced"><button id="enable" class="primary">HABILITAR</button><button id="disable">DESHABILITAR</button><button id="zero">ZERO XYZ</button><button id="stop" class="danger">DETENER</button></div>
+        <p class="fine">Primero alinea X/Y en las marcas físicas y Z levantado; después utiliza ZERO. No hay sensores de origen automáticos.</p>
+      </details>
+    </section>
+    <section class="panel">
+      <div class="panel-heading"><div><h2>2. Movimiento manual XY</h2><p>Posicionamiento y pruebas por pulsaciones.</p></div></div>
+      <div class="axis-stats"><div><small>X (mm)</small><strong id="px">sin ZERO</strong></div><div><small>Y (mm)</small><strong id="py">sin ZERO</strong></div><div><small>Z (pasos)</small><strong id="pz">sin ZERO</strong></div></div>
+      <div class="jog-area">
+        <div class="fields two"><label>Distancia por pulsación (mm)<select id="pasomm"><option>0.5</option><option>1</option><option selected>5</option><option>10</option><option>20</option></select></label>
+        <label>Velocidad manual (0–4)<select id="nivel"><option>0</option><option selected>1</option><option>2</option><option>3</option><option>4</option></select></label></div>
+        <div class="dpad"><span></span><button id="yp">Y+ ↑</button><span></span><button id="xm">← X−</button><span class="dpad-center">XY</span><button id="xp">X+ →</button><span></span><button id="ym">Y− ↓</button><span></span></div>
+      </div>
+    </section>
+    <section class="panel">
+      <div class="panel-heading"><div><h2>3. Z angular · Portaplumas</h2><p>Calibra el contacto y levanta o baja el plumón.</p></div></div>
+      <div class="btn-row"><button id="zm">Z− SUBIR</button><button id="zp">Z+ BAJAR</button><button id="guardarZ">Guardar contacto</button></div>
+      <div class="btn-row spaced"><button id="plumaUp">Plumón ARRIBA</button><button id="plumaDown">Plumón ABAJO</button></div>
+      <details class="fold"><summary>Parámetros de contacto Z</summary>
+        <div class="fields two"><label>Incremento Z (medios pasos)<select id="pasoz"><option>1</option><option selected>2</option><option>5</option><option>10</option><option>25</option></select></label>
+        <label>Contacto Z (medios pasos)<input id="contacto" type="number" min="1" max="600" step="1" value="295"></label></div>
+        <p class="fine">Z=0 es plumón elevado. Z+ baja. Verifica el contacto después de establecer ZERO; no uses milímetros para el eje angular.</p>
+      </details>
+    </section>
+    <section class="panel">
+      <div class="panel-heading"><div><h2>4. Ajustes y calibración</h2><p>Medidas de los ejes y retorno por conteo.</p></div></div>
+      <div class="fields two">
+        <label>Medios pasos/mm X<input id="sx" type="number" min="0.01" step="0.0001" value="89.2857"></label>
+        <label>Medios pasos/mm Y<input id="sy" type="number" min="0.01" step="0.0001" value="93.8775"></label>
+        <label>Recorrido medido X (mm)<input id="mx" type="number" step="0.1" value="98"></label>
+        <label>Recorrido medido Y (mm)<input id="my" type="number" step="0.1" value="98"></label>
+        <label>Margen mecánico (mm)<input id="margen" type="number" min="0" step="0.1" value="5"></label>
+        <label>Desplazamiento G-code (mm)<input id="offset" type="number" min="0" step="0.1" value="5"></label>
+      </div>
+      <div class="btn-row spaced"><button id="guardarAjustes">Guardar ajustes</button></div>
+      <details class="fold"><summary>Calibración avanzada de extremos</summary>
+        <p class="fine">Úsala solo <strong>ANTES de ZERO</strong>. Acércate a los topes con incrementos pequeños, sin forzar el mecanismo.</p>
+        <label>Incremento de calibración (medios pasos)<select id="calStep"><option>25</option><option selected>100</option><option>250</option><option>500</option></select></label>
+        <div class="btn-row spaced"><button id="cxm">Cal X−</button><button id="cxp">Cal X+</button><button id="cym">Cal Y−</button><button id="cyp">Cal Y+</button></div>
+        <div class="btn-row"><button id="left">Marcar X izquierda</button><button id="right">Marcar X derecha</button><button id="bottom">Marcar Y abajo</button><button id="top">Marcar Y arriba</button></div>
+        <div class="btn-row"><button id="calcXY">Calcular pasos/mm</button><button id="volverCal">Regresar XY simultáneo</button></div>
+        <p id="calEstado" class="fine">Sin extremos registrados en esta sesión.</p>
+      </details>
+    </section>
+    <section class="panel log-panel">
+      <div class="panel-heading"><div><h2>8. Registro</h2><p>Mensajes y respuestas de la FPGA.</p></div><button id="clearLog" class="tiny" type="button">Limpiar</button></div>
+      <pre id="registro">Listo. Abre esta página desde HTTPS (GitHub Pages) o localhost.</pre>
+    </section>
+  </div>
+  <div class="stack">
+    <section class="panel gcode-panel">
+      <div class="panel-heading"><div><h2>5. G-code y vista previa</h2><p>Importa trayectorias de Python V6.3 y revisa el orden de dibujo.</p></div><span id="cuenta" class="soft-pill">Sin archivo</span></div>
+      <label>Archivo G-code<input id="archivo" type="file" accept=".gcode,.nc,.tap,.txt"></label>
+      <div class="preview-wrap"><canvas id="visor" width="720" height="720" aria-label="Vista previa XY; haz clic en un trazo para seleccionarlo"></canvas></div>
+      <p id="trazoInfo" class="fine info-line">Toca un trazo azul en la vista previa para seleccionarlo.</p>
+      <div class="btn-row spaced"><button id="simular">Verificar archivo</button><button id="dibujar" class="primary">INICIAR DIBUJO</button><button id="cancelar" class="danger">DETENER / ABORTAR</button></div>
+      <details class="fold"><summary>Pruebas rápidas y exportación</summary>
+        <div class="test-grid">
+        <button id="testRectangulo" type="button">Rectángulo 60 × 40 mm</button>
+        <button id="testCirculo" type="button">Círculo Ø80 mm</button>
+        <button id="testLetras" type="button">Letras FCE / EQ3 · 80 × 80</button>
+        <button id="testTriangulo" type="button">Triángulo 60 × 60 mm</button>
+        <button id="testLineas" type="button">8 líneas de 5 mm · paso 4 mm</button>
+        <button id="testFibonacci" type="button">Espiral de Fibonacci</button>
+        </div>
+        <div class="btn-row spaced"><button id="guardarGcode" type="button" class="primary">Descargar G-code</button></div>
+        <p class="fine">Las figuras se generan en el área 80 × 80 mm de G-code. Antes de mover los motores, pulsa <strong>Verificar archivo</strong> y revisa el margen mecánico.</p>
+      </details>
+      <details class="fold"><summary>Seguridad de operación</summary><p class="fine">Sin finales de carrera. Supervisa cada movimiento y mantén accesible el corte de alimentación.</p></details>
+    </section>
+    <details class="panel panel-toggle" id="seccion6" open>
+      <summary class="section-summary"><div class="panel-heading"><div><h2>6. Dibujo · Parámetros</h2><p>Define el estilo de visualización y el asentamiento de la pluma.</p></div></div><span class="chevron" aria-hidden="true"></span></summary>
+      <div class="panel-inner">
+      <div class="fields two"><label>Espera tras bajar Z (s)<input type="number" id="pausaZ" min="0" max="3" step="0.05" value="0.30"></label>
+      <label>Diámetro real de tinta (mm)<input type="number" id="diametro" min="0.1" max="5" step="0.1" value="1.0"></label></div>
+      <label class="check"><input type="checkbox" id="grosor"> Simular grosor de tinta (solo vista previa)</label>
+      <details class="fold"><summary>Opciones de visualización</summary><p class="fine">El diámetro modifica únicamente el grosor mostrado: NO agrega rellenos ni pasadas. La pausa Z se aplica tras cada bajada confirmada por UART, antes de mover XY. Puedes ponerla en <strong>0.00 s</strong> para no añadir espera. No se exporta al G-code.</p></details>
+    
+      </div>
+    </details>
+    <details class="panel panel-toggle" id="seccion7" open>
+      <summary class="section-summary"><div class="panel-heading"><div><h2>7. Trayectorias y marco · V6.3</h2><p>Selecciona lo que dibujarás. Si existe un marco, siempre va primero.</p></div></div><span class="chevron" aria-hidden="true"></span></summary>
+      <div class="panel-inner">
+      <div class="btn-row"><button id="borrarTrazo">Eliminar trazo elegido</button><button id="deshacerTrazo">Deshacer eliminación</button><button id="invertirSeleccion">Deseleccionar</button></div>
+      <div class="fields two spaced"><label class="check"><input type="checkbox" id="marcoWeb"> Añadir marco rectangular</label>
+      <label>Separación del marco (mm)<input id="sepMarco" type="number" min="0" max="30" step="0.5" value="2"></label></div>
+      <div class="btn-row"><button id="aplicarMarco">Aplicar marco</button></div>
+      <p class="fine">La V6.3 de Python ya exporta el marco cuando está activado: <strong>si tu G-code ya lo incluye, no actives otro aquí.</strong> Puedes seleccionar el marco importado y quitarlo como cualquier trazo.</p>
+      <details class="fold"><summary>Agregar detalles desde otro G-code</summary>
+        <p class="fine">Si guardaste ojos, nariz u otros detalles en un segundo G-code de Python, impórtalos aquí para anexar sus recorridos. La web no vectoriza una fotografía automáticamente.</p>
+        <label>G-code adicional de detalles<input type="file" id="archivoDetalles" accept=".gcode,.nc,.tap,.txt"></label>
+      </details>
+      <details class="fold"><summary>Orden y compatibilidad</summary>
+        <p class="fine">El marco añadido desde esta página siempre aparece antes de los trazos interiores en la simulación, descarga y ejecución física. El G-code usa G21/G90, G0/G1 y M3/M5; M3 baja Z y M5 lo sube.</p>
+      </details>
+    
+      </div>
+    </details>
+    <details class="panel panel-toggle" id="seccion9" open>
+      <summary class="section-summary"><div class="panel-heading"><div><h2>9. Imagen de referencia</h2><p>Compara visualmente la imagen original con las trayectorias.</p></div></div><span class="chevron" aria-hidden="true"></span></summary>
+      <div class="panel-inner">
+      <label>Imagen PNG/JPG/BMP para referencia<input type="file" accept="image/png,image/jpeg,image/bmp,image/webp" id="archivoImagen"></label>
+      <div id="imagePlaceholder" class="image-placeholder">Aquí aparecerá la imagen de referencia.<small>No genera G-code automáticamente.</small></div>
+      <img id="imagenOriginal" class="original-image" alt="Imagen original para comparar con el dibujo" hidden>
+    
+      </div>
+    </details>
+  </div>
+</main>
+<footer>AVANXE Spartan-6 · Python V6.3 + interfaz Web · HC-06 9600 · UART USB 115200</footer>
+<script defer src="./nieve.js"></script>
+<script type="module" src="./app.mjs"></script>
+</body>
+</html>
