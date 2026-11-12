@@ -1,6 +1,6 @@
 import {CMD, STATUS, paquete, parseGcode, validateGcode} from './protocolo.mjs';
 import {actionsToPaths, pathsToGcode, createFrame, pickStroke} from './editor.mjs';
-import {makeDemo} from './pruebas.mjs';
+import {demoGcodeFiles} from './pruebas.mjs';
 const $=id=>document.getElementById(id);
 const wait=ms=>new Promise(r=>setTimeout(r,ms));
 const log=(msg)=>{const el=$('registro');el.textContent+=`\n${new Date().toLocaleTimeString()} ${msg}`;el.scrollTop=el.scrollHeight;};
@@ -271,14 +271,28 @@ attach('simular',async()=>{
  const c=config();validateGcode(actions,{offset:c.offset,mechanicalX:c.mx,mechanicalY:c.my,margin:c.margen});
  drawPreview();log(`G-code verificado: ${trazos.length} trazos, ${actions.filter(x=>x.kind==='move').length} movimientos, rango seguro ${c.mx-2*c.margen}×${c.my-2*c.margen} mm.`);
 });
-function loadDemo(kind){
+async function loadDemo(kind){
  if(running)throw Error('Espera a terminar o detener el dibujo antes de cambiar la prueba');
- const {name,paths}=makeDemo(kind);
- if(trazos.length&&!confirm(`La prueba «${name}» sustituirá el G-code y los trazos actuales. ¿Continuar?`))return;
- trazos=paths;seleccionado=null;undoStack=[];$('marcoWeb').checked=false;
- syncActions();
- const c=config();validateGcode(actions,{offset:c.offset,mechanicalX:c.mx,mechanicalY:c.my,margin:c.margen});
- log(`Prueba generada: ${name}. Verifica el G-code antes de iniciar dibujo real.`);
+ const demoFile=demoGcodeFiles[kind];
+ if(!demoFile)throw Error(`Prueba desconocida: ${kind}`);
+ {
+  if(trazos.length&&!confirm(`La prueba «${demoFile.name}» sustituirá el G-code y los trazos actuales. ¿Continuar?`))return;
+  // GitHub Pages publica desde HTTPS. fetch no puede cargar archivos locales file://.
+  const url=new URL(demoFile.file,import.meta.url);
+  let response;
+  try{response=await fetch(url,{cache:'no-cache'});}catch(e){throw Error(`No se pudo leer ${demoFile.file}. Abre la página publicada por HTTPS o desde localhost.`)}
+  if(!response.ok)throw Error(`No se encontró ${demoFile.file} (HTTP ${response.status}). Revisa que subiste la carpeta gcode/ a GitHub.`);
+  const source=await response.text();
+  const parsed=parseGcode(source);
+  const c=config();validateGcode(parsed,{offset:c.offset,mechanicalX:c.mx,mechanicalY:c.my,margin:c.margen});
+  const paths=actionsToPaths(parsed);
+  if(!paths.length)throw Error(`${demoFile.file} no contiene trayectorias dibujables`);
+  // Mantener la arquitectura de editor: la vista, exportación y ejecución comparten los mismos trazos.
+  trazos=paths;seleccionado=null;undoStack=[];$('marcoWeb').checked=false;
+  syncActions();
+  log(`Prueba cargada desde ${demoFile.file}: ${trazos.length} trazo(s). Lista para verificar.`);
+  return;
+ }
 }
 for(const [id,kind] of [
  ['testRectangulo','rectangulo'],['testCirculo','circulo'],['testLetras','letras'],
