@@ -1,6 +1,6 @@
 <div align="center">
 
-<img src="./assets/miku-sin-fondo.png" alt="Ilustración de la interfaz del Plotter AVANXE" width="290">
+<img src="./assets/AMD.jpg" alt="Ilustración de la interfaz del Plotter AVANXE" width="290">
 
 # Plotter CNC AVANXE
 
