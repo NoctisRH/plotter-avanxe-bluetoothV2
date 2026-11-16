@@ -20,22 +20,50 @@ Poryecto académico de dibujo automatizado que reúne **procesamiento de imágen
 
 La interfaz web se ejecuta desde el navegador y permite cargar G-code, realizar ajustes de calibración, visualizar y editar trayectorias, y comunicar comandos a través de un puerto serial Bluetooth compatible.
 
+
 ## Galería
 
 <div align="center">
-<table>
-<tr><td align="center" width="50%">
-<img src="./assets/miku-sin-fondo.png" width="220" alt="Ilustración usada en la interfaz web"><br>
-<sub>Identidad visual de la interfaz</sub>
-</td><td align="center" width="50%">
-<strong>Tu plotter, tu trayectoria</strong><br><br>
-<sub>Imagen digital → trayectorias → G-code → desplazamientos → dibujo</sub><br><br>
-<a href="https://noctisrh.github.io/plotter-avanxe-bluetoothV2/">Abrir la aplicación web</a>
-</td></tr>
-</table>
+  <table>
+    <tr>
+      <td align="center" width="50%">
+        <img src="./assets/plotter_fisico.jpg" width="400">
+        <br>
+        <sub>Plotter - Montaje físico</sub>
+      </td>
+      <td align="center" width="50%">
+        <img src="./assets/interfaz_web.png" width="400">
+        <br>
+        <sub>Interfaz web de control Bluetooth</sub>
+      </td>
+    </tr>
+    <tr>
+      <td align="center">
+        <img src="./assets/interfaz_python.png" width="400">
+        <br>
+        <sub>Aplicación Python </sub>
+      </td>
+      <td align="center">
+        <img src="./assets/rtl_fpga.png" width="400">
+        <br>
+        <sub>Arquitectura RTL del FPGA</sub>
+      </td>
+    </tr>
+    <tr>
+      <td align="center">
+        <img src="./assets/dibujo_1.jpg" width="400">
+        <br>
+        <sub>Resultado de dibujo automático</sub>
+      </td>
+      <td align="center">
+        <img src="./assets/dibujo_2.jpg" width="400">
+        <br>
+        <sub>Prueba de vectorización y trazado</sub>
+      </td>
+    </tr>
+  </table>
 </div>
 
-> Las fotografías del mecanismo, las capturas de la aplicación Python y los diagramas de síntesis se pueden incorporar a esta galería cuando se publiquen sus imágenes.
 
 ## Las tres partes del sistema
 
