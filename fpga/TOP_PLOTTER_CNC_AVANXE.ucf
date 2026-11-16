@@ -1,0 +1,44 @@
+# =============================================================================
+# TOP_PLOTTER_CNC_AVANXE.ucf
+# Tarjeta INTESC AVANXE - Spartan-6 XC6SLX16-2FTG256
+# Mapeo: manual AVANXE, P6, reloj, UART USB/COM y LEDs/Switches
+# IMPORTANTE: probar polaridades de switches ANTES de conectar motores.
+# =============================================================================
+
+# RELOJ PRINCIPAL 50 MHz (oscilador integrado)
+NET "clk50MHz" LOC = "C10" | IOSTANDARD = LVCMOS33;
+NET "clk50MHz" TNM_NET = "GRP_CLK50";
+TIMESPEC "TS_CLK50" = PERIOD "GRP_CLK50" 20 ns HIGH 50%;
+
+# UART por FTDI integrado de AVANXE (puerto COM)
+# TX de FPGA=N3 / RX de FPGA=N4 (ver nota de versiones del manual)
+NET "uart_tx" LOC = "N3" | IOSTANDARD = LVCMOS33;
+NET "uart_rx" LOC = "N4" | IOSTANDARD = LVCMOS33;
+
+# INTERRUPTORES de placa AVANXE
+# NO hay entrada de parada de emergencia. Desconectar alimentacion externa en un problema.
+NET "reset"   LOC = "M6" | IOSTANDARD = LVCMOS33;
+
+# LED INDICADORES: busy solo encendido al moverse, enabled solo tras ENABLE recibido por UART
+# LED INDICADORES AVANXE
+NET "led_busy"    LOC = "R1" | IOSTANDARD = LVCMOS33;
+NET "led_enabled" LOC = "R2" | IOSTANDARD = LVCMOS33;
+
+# MOTOR X 28BYJ-48 / ULN2003 - conector P6, IO0..IO3
+# Orden de vector (0..3) hacia IN1..IN4 respectivamente
+NET "motor_x<0>" LOC = "A6" | IOSTANDARD = LVCMOS33; # P6 pin 7  (IO0)
+NET "motor_x<1>" LOC = "C7" | IOSTANDARD = LVCMOS33; # P6 pin 3  (IO1)
+NET "motor_x<2>" LOC = "B8" | IOSTANDARD = LVCMOS33; # P6 pin 4  (IO2)
+NET "motor_x<3>" LOC = "C9" | IOSTANDARD = LVCMOS33; # P6 pin 10 (IO3)
+
+# MOTOR Y 28BYJ-48 / ULN2003 - conector P6, IO4..IO7
+NET "motor_y<0>" LOC = "F9"  | IOSTANDARD = LVCMOS33; # P6 pin 11 (IO4)
+NET "motor_y<1>" LOC = "A9"  | IOSTANDARD = LVCMOS33; # P6 pin 12 (IO5)
+NET "motor_y<2>" LOC = "D11" | IOSTANDARD = LVCMOS33; # P6 pin 13 (IO6)
+NET "motor_y<3>" LOC = "E10" | IOSTANDARD = LVCMOS33; # P6 pin 14 (IO7)
+
+# MOTOR Z 28BYJ-48 / ULN2003 - conector P6, IO8..IO11
+NET "motor_z<0>" LOC = "C13" | IOSTANDARD = LVCMOS33; # P6 pin 15 (IO8)
+NET "motor_z<1>" LOC = "D12" | IOSTANDARD = LVCMOS33; # P6 pin 16 (IO9)
+NET "motor_z<2>" LOC = "B12" | IOSTANDARD = LVCMOS33; # P6 pin 17 (IO10)
+NET "motor_z<3>" LOC = "A11" | IOSTANDARD = LVCMOS33; # P6 pin 18 (IO11)
