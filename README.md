@@ -4,7 +4,7 @@
 
 # Plotter CNC AVANXE
 
-**Un pequeño plotter para convertir trayectorias digitales en dibujos sobre papel.**
+**PLOTTER FPGA - SPARTAN 6**
 
 **FPGA Spartan-6 · VHDL · Python · G-code · Web Serial · Bluetooth**
 
@@ -16,7 +16,7 @@
 
 ## Sobre el proyecto
 
-Plotter CNC AVANXE es un proyecto académico de dibujo automatizado que reúne **procesamiento de imágenes**, **comunicación serial** y **control digital de motores a pasos**. Las trayectorias se preparan como G-code y se ejecutan mediante comandos binarios interpretados por una FPGA.
+Poryecto académico de dibujo automatizado que reúne **procesamiento de imágenes**, **comunicación serial** y **control digital de motores a pasos**. Las trayectorias se preparan como G-code y se ejecutan mediante comandos binarios interpretados por una FPGA.
 
 La interfaz web se ejecuta desde el navegador y permite cargar G-code, realizar ajustes de calibración, visualizar y editar trayectorias, y comunicar comandos a través de un puerto serial Bluetooth compatible.
 
