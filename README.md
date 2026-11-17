@@ -39,24 +39,24 @@ La interfaz web se ejecuta desde el navegador y permite cargar G-code, realizar 
     </tr>
     <tr>
       <td align="center">
-        <img src="./assets/interfaz_python.png" width="400">
+        <img src="./assets/apppy.png" width="400">
         <br>
         <sub>Aplicación Python </sub>
       </td>
       <td align="center">
-        <img src="./assets/rtl_fpga.png" width="400">
+        <img src="./assets/2_7.png" width="400">
         <br>
         <sub>Arquitectura RTL del FPGA</sub>
       </td>
     </tr>
     <tr>
       <td align="center">
-        <img src="./assets/dibujo_1.jpg" width="400">
+        <img src="./assets/1_9.png" width="400">
         <br>
         <sub>Resultado de dibujo automático</sub>
       </td>
       <td align="center">
-        <img src="./assets/dibujo_2.jpg" width="400">
+        <img src="./assets/2_2.jpeg" width="400">
         <br>
         <sub>Prueba de vectorización y trazado</sub>
       </td>
