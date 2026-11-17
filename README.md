@@ -109,7 +109,7 @@ La conexión Bluetooth clásica requiere que el módulo serial aparezca como pue
 | [TOP](./fpga/TOP_PLOTTER_CNC.vhd) | Integración de módulos |
 | [Restricciones](./fpga/TOP_PLOTTER_CNC_AVANXE.ucf) | Asignación de pines y restricciones |
 
-**Nota sobre la versión de los archivos:** el `TOP_PLOTTER_CNC.vhd` incluido en `fpga/` corresponde al conjunto de fuentes compartido para documentación; **expone UART por cable y señales de seguridad**, pero no expone directamente `bt_rx`, `bt_tx` ni `sel_bluetooth`. Además, el archivo UCF compartido no contiene restricciones para todas las entradas adicionales del TOP (`estop_n` y `limit_*_n`). Por eso **estos archivos son fuentes de referencia y aún requieren revisión de compatibilidad antes de sintetizar o conectar el hardware**, y no se presentan como una compilación verificada de la variante Bluetooth. La web queda intacta y es independiente de estos archivos fuente.
+**Nota sobre la versión de los archivos:** el `TOP_PLOTTER_CNC.vhd` incluido en `fpga/` corresponde al conjunto de fuentes compartido para documentación, **estos archivos son fuentes de referencia y aún requieren revisión de compatibilidad antes de sintetizar o conectar el hardware**. La web queda intacta y es independiente de estos archivos fuente.
 
 Más detalles en [Arquitectura del sistema](./docs/arquitectura.md).
 
