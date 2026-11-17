@@ -16,7 +16,7 @@
 
 ## Sobre el proyecto
 
-Poryecto académico de dibujo automatizado que reúne **procesamiento de imágenes**, **comunicación serial** y **control digital de motores a pasos**. Las trayectorias se preparan como G-code y se ejecutan mediante comandos binarios interpretados por una FPGA.
+Practica academica de dibujo automatizado que reúne **procesamiento de imágenes**, **comunicación serial** y **control digital de motores a pasos**. Las trayectorias se preparan como G-code y se ejecutan mediante comandos binarios interpretados por una FPGA.
 
 La interfaz web se ejecuta desde el navegador y permite cargar G-code, realizar ajustes de calibración, visualizar y editar trayectorias, y comunicar comandos a través de un puerto serial Bluetooth compatible.
 
@@ -85,7 +85,7 @@ flowchart LR
 ## Interfaz web
 
 <div align="center">
-<img src="./assets/miku-sin-fondo.png" alt="Recurso gráfico de la web" width="185">
+<img src="./assets/ava.png" alt="Recurso gráfico de la web" width="185">
 </div>
 
 La interfaz incluye **conexión serial**, movimientos de calibración, **vista previa del área de dibujo**, edición básica de trazos y seis figuras de ejemplo almacenadas como archivos G-code externos en `gcode/`.
@@ -143,7 +143,7 @@ Antes de ejecutar, comprueba la calibración, el origen, los límites y la altur
 
 <div align="center">
 
-**Plotter CNC AVANXE — Proyecto académico de control digital y dibujo automático**
+**Plotter CNC AVANXE — Practica 3**
 
 <sub>Repositorio mantenido por NoctisRH</sub>
 
