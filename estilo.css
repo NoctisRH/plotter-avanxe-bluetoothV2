@@ -1,4 +1,3 @@
-
 :root{font-family:system-ui,-apple-system,"Segoe UI",sans-serif;color:#173852;background:#eaf5ff;--blue:#1377bd;--line:#cfe5f6;--ink:#173852;--muted:#647f96;--glass:rgba(255,255,255,.88)}
 *{box-sizing:border-box}html{min-height:100%}body{margin:0;min-height:100vh;position:relative;isolation:isolate}
 .ambient,.miku-bg{position:fixed;inset:0;pointer-events:none;z-index:-2}.ambient{background:radial-gradient(ellipse at 8% 20%,#f1fcff 0%,transparent 42%),radial-gradient(ellipse at 87% 33%,#caecff 0%,transparent 55%),linear-gradient(155deg,#d4f1ff,#f0f7ff 55%,#d5eefd)}
@@ -36,7 +35,7 @@ input:focus,select:focus,button:focus-visible,summary:focus-visible{outline:2px 
 }
 .test-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px;margin-top:12px}
 .test-grid button{min-width:0;min-height:46px;line-height:1.25}
-/* V3.2 · Copos independientes: tamaños variados, velocidades diferentes,
+/* V3.3 · Nevada mas visible: copos amplificados sin alterar la logica UART,
    ligera brisa lateral y oscilación. No se repiten en una cuadrícula. */
 .snowfall{
   position:fixed; inset:0; overflow:hidden;
@@ -48,17 +47,18 @@ input:focus,select:focus,button:focus-visible,summary:focus-visible{outline:2px 
 .snowfall .snow-particle{
   position:absolute; top:0; left:var(--left);
   display:block; color:var(--snow-color);
-  font-size:var(--size); line-height:1;
-  opacity:var(--alpha);
+  font-size:calc(var(--size) * 1.65); line-height:1;
+  opacity:clamp(.45, calc(var(--alpha) * 1.55), .90);
   font-family:Arial,"Segoe UI Symbol",sans-serif;
-  text-shadow:0 0 4px rgba(255,255,255,.82),0 0 1px rgba(40,121,168,.2);
+  text-shadow:0 1px 2px rgba(24,79,120,.50),0 0 7px rgba(60,142,190,.40);
   will-change:transform;
+  filter:drop-shadow(0 0 1px rgba(32,105,153,.25));
   animation:snowfallSway var(--duration) linear var(--delay) infinite;
 }
 .snowfall .snow-particle.snow-dust{
-  width:var(--size);height:var(--size);border-radius:50%;
+  width:calc(var(--size) * 1.5);height:calc(var(--size) * 1.5);border-radius:50%;
   background:var(--snow-color);font-size:0;
-  box-shadow:0 0 5px rgba(255,255,255,.55);
+  box-shadow:0 0 5px rgba(31,111,163,.42),inset 0 0 1px rgba(16,87,132,.50);
 }
 /* El desplazamiento lateral cambia de signo, simulando brisa en lugar
    de que cada copo recorra una recta vertical. */
@@ -70,5 +70,5 @@ input:focus,select:focus,button:focus-visible,summary:focus-visible{outline:2px 
   78%  {transform:translate3d(calc(var(--wind78) - var(--sway)),89vh,0) rotate(194deg)}
   100% {transform:translate3d(var(--wind),116vh,0) rotate(255deg)}
 }
-@media(max-width:490px){.panel-toggle>.section-summary{padding:15px 47px 15px 15px}.panel-toggle>.panel-inner{padding:0 15px 15px}.panel-toggle .chevron{right:17px}.test-grid{grid-template-columns:1fr}.snowfall{opacity:.8}}
+@media(max-width:490px){.panel-toggle>.section-summary{padding:15px 47px 15px 15px}.panel-toggle>.panel-inner{padding:0 15px 15px}.panel-toggle .chevron{right:17px}.test-grid{grid-template-columns:1fr}.snowfall{opacity:.95}}
 @media(prefers-reduced-motion:reduce){.snowfall .snow-particle,.panel-toggle>.panel-inner{animation:none!important}.snowfall{display:none!important}.panel-toggle .chevron{transition:none!important}}
