@@ -27,12 +27,12 @@ La interfaz web se ejecuta desde el navegador y permite cargar G-code, realizar 
   <table>
     <tr>
       <td align="center" width="50%">
-        <img src="./assets/plotter_fisico.jpg" width="400">
+        <img src="./assets/MONTAJE.jpeg" width="400">
         <br>
         <sub>Plotter - Montaje físico</sub>
       </td>
       <td align="center" width="50%">
-        <img src="./assets/interfaz_web.png" width="400">
+        <img src="./assets/2_1.png" width="400">
         <br>
         <sub>Interfaz web de control Bluetooth</sub>
       </td>
