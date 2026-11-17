@@ -13,7 +13,7 @@
 
 ## Archivos VHDL
 
-Los archivos fuente están en [fpga/](../fpga/). El TOP suministrado actualmente incluye `uart_rx`, `uart_tx`, `estop_n` y `limit_*_n`, con opción `USE_LIMIT_SWITCHES`. **No tiene los puertos Bluetooth independientes de la variante comentada en la documentación del proyecto.** El archivo UCF incluido tampoco asigna los puertos `estop_n` ni `limit_x_n`, `limit_y_n`, `limit_z_n` presentes en ese TOP: **las fuentes y las restricciones requieren una revisión de compatibilidad antes de compilar, implementar o conectar el hardware**. No se afirma que ambas variantes sean idénticas.
+Los archivos fuente están en [fpga/](../fpga/). **las fuentes y las restricciones requieren una revisión de compatibilidad antes de compilar, implementar o conectar el hardware**. No se afirma que ambas variantes sean idénticas.
 
 ## Firmware y hardware
 
@@ -25,4 +25,4 @@ Los archivos fuente están en [fpga/](../fpga/). El TOP suministrado actualmente
 
 ## Consideraciones de seguridad
 
-No conectar bobinas directamente a la FPGA. Las señales `motor_x/y/z` son niveles lógicos para los drivers. Verificar tensión de alimentación, tierra común, límites mecánicos y tiempos antes de operar.
+No conectar bobinas directamente a la FPGA.
